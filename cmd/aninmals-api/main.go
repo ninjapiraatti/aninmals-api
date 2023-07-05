@@ -1,27 +1,17 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 
+	"aninmals-api/pkg/handler"
+	"aninmals-api/pkg/repository"
+	"aninmals-api/pkg/router"
+
 	"github.com/go-pg/pg/v10"
 	"github.com/joho/godotenv"
 )
-
-type Aninmal struct {
-	ID     string `json:"id"`
-	Title  string `json:"title"`
-	Author string `json:"author"`
-}
-
-var aninmals []Aninmal
-
-func getAninmals(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(aninmals)
-}
 
 func testFunction() int {
 	return 666
@@ -54,10 +44,10 @@ func main() {
 
 	fmt.Println("Connected successfully!")
 
-	http.HandleFunc("/aninmals", getAninmals)
+	aninmalRepository := repository.AninmalRepository{}
+	aninmalHandler := handler.AninmalHandler{AninmalRepository: aninmalRepository}
 
-	aninmals = append(aninmals, Aninmal{ID: "1", Title: "Aquatic Sock Puppet", Author: "Author One"})
-	aninmals = append(aninmals, Aninmal{ID: "2", Title: "Patience Monkey", Author: "Author Two"})
+	r := router.NewRouter(aninmalHandler)
 
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(":8000", r)
 }
