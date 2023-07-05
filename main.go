@@ -10,17 +10,17 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type Book struct {
+type Aninmal struct {
 	ID     string `json:"id"`
 	Title  string `json:"title"`
 	Author string `json:"author"`
 }
 
-var books []Book
+var aninmals []Aninmal
 
-func getBooks(w http.ResponseWriter, r *http.Request) {
+func getAninmals(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(books)
+	json.NewEncoder(w).Encode(aninmals)
 }
 
 func main() {
@@ -50,10 +50,10 @@ func main() {
 
 	fmt.Println("Connected successfully!")
 
-	http.HandleFunc("/books", getBooks)
+	http.HandleFunc("/aninmals", getAninmals)
 
-	books = append(books, Book{ID: "1", Title: "Book One", Author: "Author One"})
-	books = append(books, Book{ID: "2", Title: "Book Two", Author: "Author Two"})
+	aninmals = append(aninmals, Aninmal{ID: "1", Title: "Aquatic Sock Puppet", Author: "Author One"})
+	aninmals = append(aninmals, Aninmal{ID: "2", Title: "Patience Monkey", Author: "Author Two"})
 
 	http.ListenAndServe(":8000", nil)
 }
