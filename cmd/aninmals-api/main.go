@@ -23,6 +23,10 @@ func getAninmals(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(aninmals)
 }
 
+func testFunction() int {
+	return 666
+}
+
 func main() {
 	err := godotenv.Load("../../.env")
 	if err != nil {
